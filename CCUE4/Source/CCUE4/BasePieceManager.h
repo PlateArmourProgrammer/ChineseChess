@@ -24,7 +24,12 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 public:
-	UFUNCTION(BlueprintCallable, Category="PieceManager")
-	int TestCallback();
+	UFUNCTION(BlueprintCallable, Category = "PieceManager")
+		void SetPositionScale(float scale);
 
+	UFUNCTION(BlueprintCallable, Category="PieceManager")
+		TArray<FVector> GetPieceInitPositions();
+
+private:
+	float scale_;
 };
