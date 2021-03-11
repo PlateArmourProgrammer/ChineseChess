@@ -48,9 +48,9 @@ namespace cc {
 		90 -- 91 -- 92 -- 93 -- 04 -- 95 -- 96 -- 97 -- 98
 
 		0---1----2----3----4----5----6----7----8----9----10---11---12---13---14---15
-		bj, bs1, bs2, bx1, bx2, bm1, bm2, bc1, bc2, bp1, bp2, bb1, bb2, bb3, bb4, bb4
+		bj, bs1, bs2, bx1, bx2, bm1, bm2, bc1, bc2, bp1, bp2, bb1, bb2, bb3, bb4, bb5
 		16--17---18---19---20---21---22---23---24---25---26---27---28---29---30---31
-		rj, rs1, rs2, rx1, rx2, rm1, rm2, rc1, rc2, rp1, rp2, rb1, rb2, rb3, rb4, rb4
+		rj, rs1, rs2, rx1, rx2, rm1, rm2, rc1, rc2, rp1, rp2, rb1, rb2, rb3, rb4, rb5
 	*/
 
 	class ChessConstants {
