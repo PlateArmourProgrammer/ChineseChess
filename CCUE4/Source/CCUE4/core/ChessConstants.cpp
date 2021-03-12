@@ -58,6 +58,39 @@ namespace cc {
 		// 15 bb5
 		ret.Add(IndexToPositionMap[38]);
 
+		// 16 rj
+		ret.Add(IndexToPositionMap[94]);
+		// 17 rs1
+		ret.Add(IndexToPositionMap[93]);
+		// 18 rs2
+		ret.Add(IndexToPositionMap[95]);
+		// 19 rx1
+		ret.Add(IndexToPositionMap[92]);
+		// 20 rx2
+		ret.Add(IndexToPositionMap[96]);
+		// 21 rm1
+		ret.Add(IndexToPositionMap[91]);
+		// 22 rm2
+		ret.Add(IndexToPositionMap[97]);
+		// 23 rc1
+		ret.Add(IndexToPositionMap[90]);
+		// 24 rc2
+		ret.Add(IndexToPositionMap[98]);
+		// 25 rp1
+		ret.Add(IndexToPositionMap[71]);
+		// 26 rp2
+		ret.Add(IndexToPositionMap[77]);
+		// 27 rb1
+		ret.Add(IndexToPositionMap[60]);
+		// 28 rb2
+		ret.Add(IndexToPositionMap[62]);
+		// 29 rb3
+		ret.Add(IndexToPositionMap[64]);
+		// 30 rb4
+		ret.Add(IndexToPositionMap[66]);
+		// 31 rb5
+		ret.Add(IndexToPositionMap[68]);
+
 		return ret;
 	}
 
