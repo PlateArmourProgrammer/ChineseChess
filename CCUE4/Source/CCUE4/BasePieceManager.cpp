@@ -31,11 +31,11 @@ void ABasePieceManager::SetPositionScale(float scale) {
 	scale_ = scale;
 }
 
-TArray<FVector> ABasePieceManager::GetPieceInitPositions() {
+TArray<FVector> ABasePieceManager::GetPieceInitPositions(float posZ) {
 	TArray<FIntPoint> intPos = cc::ChessConstants::PieceInitPositions();
 	TArray<FVector> pos3D;
 	for (int i = 0; i < intPos.Num(); i++) {
-		pos3D.Add(FVector(intPos[i].X * scale_, intPos[i].Y * scale_, 0));
+		pos3D.Add(FVector(intPos[i].X * scale_, intPos[i].Y * scale_, posZ));
 	}
 	return pos3D;
 }

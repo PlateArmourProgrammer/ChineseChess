@@ -28,7 +28,7 @@ public:
 		void SetPositionScale(float scale);
 
 	UFUNCTION(BlueprintCallable, Category="PieceManager")
-		TArray<FVector> GetPieceInitPositions();
+		TArray<FVector> GetPieceInitPositions(float posZ);
 
 private:
 	float scale_;
