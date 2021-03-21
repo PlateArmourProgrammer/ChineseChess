@@ -33,9 +33,25 @@ void ABasePieceManager::SetPositionScale(float scale) {
 
 TArray<FVector> ABasePieceManager::GetPieceInitPositions(float posZ) {
 	TArray<FIntPoint> intPos = cc::ChessConstants::PieceInitPositions();
-	TArray<FVector> pos3D;
 	for (int i = 0; i < intPos.Num(); i++) {
-		pos3D.Add(FVector(intPos[i].X * scale_, intPos[i].Y * scale_, posZ));
+		piecesPos_.Add(FVector(intPos[i].X * scale_, intPos[i].Y * scale_, posZ));
 	}
-	return pos3D;
+	return piecesPos_;
+}
+
+void ABasePieceManager::OnBoardClicked(FVector pos) {
+	// UE_LOG(LogTemp, Log, TEXT("OnBoardClicked %f %f %f"), pos.X, pos.Y, pos.Z);
+	float temp = scale_ * 0.9f;
+	for (int i = 0; i < piecesPos_.Num(); i++) {
+		if (cc::ChessConstants::GetVectorLength2D(pos - piecesPos_[i]) < temp) {
+			PieceClicked_Implementation(i);
+			return;
+		}
+	}
+	PieceClicked_Implementation(-1);
+}
+
+void ABasePieceManager::PieceClicked_Implementation(int32 index) {
+	UE_LOG(LogTemp, Log, TEXT("PieceClicked %d"), index);
+
 }

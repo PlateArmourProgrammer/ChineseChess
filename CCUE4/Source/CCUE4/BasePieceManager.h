@@ -30,6 +30,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category="PieceManager")
 		TArray<FVector> GetPieceInitPositions(float posZ);
 
+	UFUNCTION(BlueprintCallable, Category = "PieceManager")
+		void OnBoardClicked(FVector pos);
+
+	UFUNCTION(BlueprintNativeEvent, Category = "PieceManager")
+		void PieceClicked(int32 index);
+
 private:
 	float scale_;
+	TArray<FVector> piecesPos_;
 };
