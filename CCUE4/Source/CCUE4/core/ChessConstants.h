@@ -58,6 +58,8 @@ namespace cc {
 		static FIntPoint PieceIndexToPosition(int32 index);
 
 		static TArray<FIntPoint> PieceInitPositions();
+
+		static float GetVectorLength2D(FVector vec);
 	};
 
 }

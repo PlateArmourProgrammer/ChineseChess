@@ -94,4 +94,8 @@ namespace cc {
 		return ret;
 	}
 
+	float ChessConstants::GetVectorLength2D(FVector vec) {
+		return sqrt(vec.X * vec.X + vec.Y * vec.Y);
+	}
+
 }
