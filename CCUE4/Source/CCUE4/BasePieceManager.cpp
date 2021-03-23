@@ -44,7 +44,7 @@ void ABasePieceManager::OnBoardClicked(FVector pos) {
 	float temp = scale_ * 0.9f;
 	for (int i = 0; i < piecesPos_.Num(); i++) {
 		if (cc::ChessConstants::GetVectorLength2D(pos - piecesPos_[i]) < temp) {
-			PieceClicked_Implementation(i);
+			PieceClicked(i);
 			return;
 		}
 	}
@@ -53,5 +53,4 @@ void ABasePieceManager::OnBoardClicked(FVector pos) {
 
 void ABasePieceManager::PieceClicked_Implementation(int32 index) {
 	UE_LOG(LogTemp, Log, TEXT("PieceClicked %d"), index);
-
 }
