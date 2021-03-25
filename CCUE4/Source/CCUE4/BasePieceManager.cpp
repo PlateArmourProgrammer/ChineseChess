@@ -51,6 +51,10 @@ void ABasePieceManager::OnBoardClicked(FVector pos) {
 	PieceClicked_Implementation(-1);
 }
 
+void ABasePieceManager::OnBoardOver(FVector pos) {
+	UE_LOG(LogTemp, Log, TEXT("OnBoardOver %f %f %f"), pos.X, pos.Y, pos.Z);
+}
+
 void ABasePieceManager::PieceClicked_Implementation(int32 index) {
 	UE_LOG(LogTemp, Log, TEXT("PieceClicked %d"), index);
 }
