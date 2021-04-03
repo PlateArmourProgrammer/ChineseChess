@@ -40,8 +40,12 @@ public:
 		void PieceClicked(int32 index, bool clicked);
 
 private:
+	void updateChosenIdx(int chosenIdx);
+
+private:
 	float scale_;
 	TArray<FVector> piecesPos_;
 
 	int32 chosenIdx_;
+	int32 destIdx_;
 };

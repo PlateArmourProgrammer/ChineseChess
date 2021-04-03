@@ -45,11 +45,11 @@ void ABasePieceManager::OnBoardClicked(FVector pos) {
 	for (int i = 0; i < piecesPos_.Num(); i++) {
 		if (cc::ChessConstants::GetVectorLength2D(pos - piecesPos_[i]) < temp) {
 			if (i != chosenIdx_) {
-				chosenIdx_ = i;
+				updateChosenIdx(i);
 				PieceClicked(chosenIdx_, true);
 				// UE_LOG(LogTemp, Log, TEXT("OnBoardClicked up %d"), chosenIdx_);
 			} else {
-				chosenIdx_ = -1;
+				updateChosenIdx(-1);
 			}
 			return;
 		}
@@ -57,10 +57,24 @@ void ABasePieceManager::OnBoardClicked(FVector pos) {
 }
 
 void ABasePieceManager::OnBoardOver(FVector pos) {
-	FVector dest = cc::ChessConstants::NormalizePosirion(pos, scale_);
-	// UE_LOG(LogTemp, Log, TEXT("OnBoardOver %f %f %f"), dest.X, dest.Y, dest.Z);
+	if (chosenIdx_ == -1) {
+		return;
+	}
+	int32 destIdx = cc::ChessConstants::IndexFromVectorPosition(pos, scale_);
+	if (destIdx_ == destIdx) {
+		return;
+	}
+	destIdx_ = destIdx;
+
+	FIntPoint debugPos = cc::ChessConstants::PieceIndexToPosition(destIdx);
+	UE_LOG(LogTemp, Log, TEXT("OnBoardOver %d %d %d"), destIdx, debugPos.X, debugPos.Y);
 }
 
 void ABasePieceManager::PieceClicked_Implementation(int32 index, bool clicked) {
 	UE_LOG(LogTemp, Log, TEXT("PieceClicked %d"), index);
+}
+
+void ABasePieceManager::updateChosenIdx(int chosenIdx) {
+	chosenIdx_ = chosenIdx;
+	destIdx_ = -1;
 }
