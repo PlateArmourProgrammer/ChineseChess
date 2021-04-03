@@ -37,9 +37,11 @@ public:
 		void OnBoardOver(FVector pos);
 
 	UFUNCTION(BlueprintNativeEvent, Category = "PieceManager")
-		void PieceClicked(int32 index);
+		void PieceClicked(int32 index, bool clicked);
 
 private:
 	float scale_;
 	TArray<FVector> piecesPos_;
+
+	int32 chosenIdx_;
 };

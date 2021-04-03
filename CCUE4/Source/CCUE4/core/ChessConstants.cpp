@@ -15,6 +15,8 @@ namespace cc {
 		{-8,  9}, {-6,  9}, {-4,  9}, {-2,  9}, { 0,  9}, { 2,  9}, { 4,  9}, { 6,  9}, { 8,  9}, { 0,  0},
 	};
 
+	static FVector InvalidPos = FVector(0, 0, 500);
+
 	FIntPoint ChessConstants::PieceIndexToPosition(int32 index) {
 		if (index < 0 || index >= 100) {
 			return IndexToPositionMap[99];
@@ -96,6 +98,34 @@ namespace cc {
 
 	float ChessConstants::GetVectorLength2D(FVector vec) {
 		return sqrt(vec.X * vec.X + vec.Y * vec.Y);
+	}
+
+	FVector ChessConstants::NormalizePosirion(const FVector target, const float scale) {
+		const float fx = target.X / scale;
+		const float fy = target.Y / scale;
+		int ix = roundf(fx);
+		int iy = roundf(fy);
+		if (ix < -9 || ix > 9 || iy < -10 || iy > 10) {
+			return InvalidPos;
+		}
+
+		if (ix == -9) {
+			ix = -8;
+		} else if (ix == 9) {
+			ix = 8;
+		} else if (ix % 2 == 1) {
+			ix = (fx > ix) ? (ix + 1) : (ix - 1);
+		}
+
+		if (iy == -10) {
+			iy = -9;
+		} else if (iy == 10) {
+			iy = 9;
+		} else if (iy % 2 == 0) {
+			iy = (fy > iy) ? (iy + 1) : (iy - 1);
+		}
+
+		return FVector(ix * scale, iy * scale, target.Z);
 	}
 
 }

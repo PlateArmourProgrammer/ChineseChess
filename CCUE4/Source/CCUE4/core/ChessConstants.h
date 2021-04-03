@@ -60,6 +60,8 @@ namespace cc {
 		static TArray<FIntPoint> PieceInitPositions();
 
 		static float GetVectorLength2D(FVector vec);
+
+		static FVector NormalizePosirion(const FVector target, const float scale);
 	};
 
 }

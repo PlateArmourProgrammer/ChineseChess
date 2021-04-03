@@ -6,11 +6,9 @@
 
 // Sets default values
 ABasePieceManager::ABasePieceManager()
-{
+	: scale_(1.0f), chosenIdx_(-1) {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
-
-	scale_ = 1.0f;
 }
 
 // Called when the game starts or when spawned
@@ -42,19 +40,27 @@ TArray<FVector> ABasePieceManager::GetPieceInitPositions(float posZ) {
 void ABasePieceManager::OnBoardClicked(FVector pos) {
 	// UE_LOG(LogTemp, Log, TEXT("OnBoardClicked %f %f %f"), pos.X, pos.Y, pos.Z);
 	float temp = scale_ * 0.9f;
+	// UE_LOG(LogTemp, Log, TEXT("OnBoardClicked down %d"), chosenIdx_);
+	PieceClicked(chosenIdx_, false);
 	for (int i = 0; i < piecesPos_.Num(); i++) {
 		if (cc::ChessConstants::GetVectorLength2D(pos - piecesPos_[i]) < temp) {
-			PieceClicked(i);
+			if (i != chosenIdx_) {
+				chosenIdx_ = i;
+				PieceClicked(chosenIdx_, true);
+				// UE_LOG(LogTemp, Log, TEXT("OnBoardClicked up %d"), chosenIdx_);
+			} else {
+				chosenIdx_ = -1;
+			}
 			return;
 		}
 	}
-	PieceClicked_Implementation(-1);
 }
 
 void ABasePieceManager::OnBoardOver(FVector pos) {
-	UE_LOG(LogTemp, Log, TEXT("OnBoardOver %f %f %f"), pos.X, pos.Y, pos.Z);
+	FVector dest = cc::ChessConstants::NormalizePosirion(pos, scale_);
+	// UE_LOG(LogTemp, Log, TEXT("OnBoardOver %f %f %f"), dest.X, dest.Y, dest.Z);
 }
 
-void ABasePieceManager::PieceClicked_Implementation(int32 index) {
+void ABasePieceManager::PieceClicked_Implementation(int32 index, bool clicked) {
 	UE_LOG(LogTemp, Log, TEXT("PieceClicked %d"), index);
 }
