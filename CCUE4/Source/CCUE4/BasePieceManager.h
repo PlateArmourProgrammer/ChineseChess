@@ -4,7 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "core/ChessConstants.h"
 #include "BasePieceManager.generated.h"
+
+class AssetsLoader;
 
 UCLASS()
 class CCUE4_API ABasePieceManager : public AActor
@@ -24,9 +27,6 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 public:
-	UFUNCTION(BlueprintCallable, Category = "PieceManager")
-		void SetPositionScale(float scale);
-
 	UFUNCTION(BlueprintCallable, Category="PieceManager")
 		TArray<FVector> GetPieceInitPositions(float posZ);
 
@@ -40,11 +40,15 @@ public:
 		void PieceClicked(int32 index, bool clicked);
 
 private:
-	void updateChosenIdx(int chosenIdx);
+	void UpdateChosenIdx(int chosenIdx);
+
+	void CreatePieces();
+
+	void CreateOnePiece(const int32 idx, UClass *clazz, const cc::ChessConstants::Side &side);
 
 private:
-	float scale_;
 	TArray<FVector> piecesPos_;
+	std::shared_ptr<AssetsLoader> assetsLoader_;
 
 	int32 chosenIdx_;
 	int32 destIdx_;

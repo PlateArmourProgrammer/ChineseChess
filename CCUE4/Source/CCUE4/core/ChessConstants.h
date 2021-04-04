@@ -57,6 +57,23 @@ namespace cc {
 	*/
 
 	class ChessConstants {
+
+	public:
+		enum Side {
+			RED,
+			BLACK,
+		};
+
+		enum Type {
+			JIANG,
+			SHI,
+			XIANG,
+			MA,
+			CHE,
+			PAO,
+			BING,
+		};
+
 	public:
 		static FIntPoint PieceIndexToPosition(int32 index);
 
