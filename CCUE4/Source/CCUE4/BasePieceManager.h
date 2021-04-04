@@ -8,6 +8,7 @@
 #include "BasePieceManager.generated.h"
 
 class AssetsLoader;
+class ABasePieceActor;
 
 UCLASS()
 class CCUE4_API ABasePieceManager : public AActor
@@ -36,9 +37,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "PieceManager")
 		void OnBoardOver(FVector pos);
 
-	UFUNCTION(BlueprintNativeEvent, Category = "PieceManager")
-		void PieceClicked(int32 index, bool clicked);
-
 private:
 	void UpdateChosenIdx(int chosenIdx);
 
@@ -46,8 +44,11 @@ private:
 
 	void CreateOnePiece(const int32 idx, UClass *clazz, const cc::ChessConstants::Side &side);
 
+	void OnPieceClicked(int32 index, bool clicked);
+
 private:
 	TArray<FVector> piecesPos_;
+	TArray<ABasePieceActor*> pieces_;
 	std::shared_ptr<AssetsLoader> assetsLoader_;
 
 	int32 chosenIdx_;

@@ -4,9 +4,8 @@
 #include "BasePieceActor.h"
 #include "../AssetsLoader.h"
 
-static const FVector HighLightPosOffset = FVector(0, 0, 10);
+static const FVector HighLightPosOffset = FVector(0, 0, 2);
 static const FVector PieceScale = FVector(5, 5, 5);
-static const float PosScale = 24.0f;
 
 ABasePieceActor::ABasePieceActor() {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -66,15 +65,15 @@ void ABasePieceActor::InitInternal(const cc::ChessConstants::Side& side, const c
 	}
 	meshComp->SetStaticMesh(assetsLoader->GetPieceStaticMesh(meshIdx));
 
-	SetActorLocation(currentPos_ * PosScale);
+	SetActorLocation(currentPos_ * cc::ChessConstants::PosScale);
 	SetActorScale3D(PieceScale);
 }
 
 void ABasePieceActor::OnChosen(bool chosen) {
 	if (!chosen) {
-		SetActorLocation(currentPos_);
+		SetActorLocation(currentPos_ * cc::ChessConstants::PosScale);
 		return;
 	}
-	SetActorLocation(currentPos_ + HighLightPosOffset);
+	SetActorLocation((currentPos_ + HighLightPosOffset) * cc::ChessConstants::PosScale);
 }
 

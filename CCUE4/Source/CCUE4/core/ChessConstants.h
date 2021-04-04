@@ -84,6 +84,9 @@ namespace cc {
 		static float GetVectorLength2D(FVector vec);
 
 		static int32 IndexFromVectorPosition(const FVector target, const float scale);
+
+	public:
+		static const float PosScale;
 	};
 
 }

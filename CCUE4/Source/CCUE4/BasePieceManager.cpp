@@ -46,15 +46,16 @@ TArray<FVector> ABasePieceManager::GetPieceInitPositions(float posZ) {
 }
 
 void ABasePieceManager::OnBoardClicked(FVector pos) {
-	// UE_LOG(LogTemp, Log, TEXT("OnBoardClicked %f %f %f"), pos.X, pos.Y, pos.Z);
+	UE_LOG(LogTemp, Log, TEXT("OnBoardClicked %f %f %d"), pos.X, pos.Y, chosenIdx_);
 	float temp = 0.9f;
+	FVector normalizedPos = pos / cc::ChessConstants::PosScale;
 	// UE_LOG(LogTemp, Log, TEXT("OnBoardClicked down %d"), chosenIdx_);
-	PieceClicked(chosenIdx_, false);
+	OnPieceClicked(chosenIdx_, false);
 	for (int i = 0; i < piecesPos_.Num(); i++) {
-		if (cc::ChessConstants::GetVectorLength2D(pos - piecesPos_[i]) < temp) {
+		if (cc::ChessConstants::GetVectorLength2D(normalizedPos - piecesPos_[i]) < temp) {
 			if (i != chosenIdx_) {
 				UpdateChosenIdx(i);
-				PieceClicked(chosenIdx_, true);
+				OnPieceClicked(chosenIdx_, true);
 				// UE_LOG(LogTemp, Log, TEXT("OnBoardClicked up %d"), chosenIdx_);
 			} else {
 				UpdateChosenIdx(-1);
@@ -75,11 +76,15 @@ void ABasePieceManager::OnBoardOver(FVector pos) {
 	destIdx_ = destIdx;
 
 	FIntPoint debugPos = cc::ChessConstants::PieceIndexToPosition(destIdx);
-	UE_LOG(LogTemp, Log, TEXT("OnBoardOver %d %d %d"), destIdx, debugPos.X, debugPos.Y);
+	// UE_LOG(LogTemp, Log, TEXT("OnBoardOver %d %d %d"), destIdx, debugPos.X, debugPos.Y);
 }
 
-void ABasePieceManager::PieceClicked_Implementation(int32 index, bool clicked) {
-	UE_LOG(LogTemp, Log, TEXT("PieceClicked %d"), index);
+void ABasePieceManager::OnPieceClicked(int32 index, bool clicked) {
+	UE_LOG(LogTemp, Log, TEXT("PieceClicked %d %d"), index, clicked);
+	if (index < 0) {
+		return;
+	}
+	pieces_[index]->OnChosen(clicked);
 }
 
 void ABasePieceManager::UpdateChosenIdx(int chosenIdx) {
@@ -128,4 +133,5 @@ void ABasePieceManager::CreateOnePiece(const int32 idx, UClass* clazz, const cc:
 	ABasePieceActor* actor = world->SpawnActor<ABasePieceActor>(clazz);
 	actor->Init(side, piecesPos_[idx], assetsLoader_);
 	actor->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
+	pieces_.Add(actor);
 }

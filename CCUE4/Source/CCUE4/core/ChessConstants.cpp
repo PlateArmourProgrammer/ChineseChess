@@ -17,6 +17,8 @@ namespace cc {
 
 	static const int32 InvalidIdx = 99;
 
+	const float ChessConstants::PosScale = 24.0f;
+
 	FIntPoint ChessConstants::PieceIndexToPosition(int32 index) {
 		if (index < 0 || index >= 100) {
 			return IndexToPositionMap[InvalidIdx];
