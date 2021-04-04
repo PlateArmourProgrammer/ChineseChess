@@ -30,14 +30,23 @@ public:
 
 	virtual void OnChosen(bool chosen);
 
+	cc::ChessConstants::Side GetSide() {
+		return side_;
+	}
+
+	cc::ChessConstants::Type GetType() {
+		return type_;
+	}
+
 protected:
 	void InitInternal(const cc::ChessConstants::Side& side, const cc::ChessConstants::Type& type, const FVector& pos, const std::shared_ptr<AssetsLoader>& assetsLoader);
+
+	int32 GetMeshIndex(const cc::ChessConstants::Side& side, const cc::ChessConstants::Type& type);
 
 protected:
 	cc::ChessConstants::Side side_;
 	cc::ChessConstants::Type type_;
 
-private:
 	FVector currentPos_;
 
 };

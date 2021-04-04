@@ -9,6 +9,7 @@
 
 class AssetsLoader;
 class ABasePieceActor;
+class ADestPieceActor;
 
 UCLASS()
 class CCUE4_API ABasePieceManager : public AActor
@@ -28,9 +29,6 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 public:
-	UFUNCTION(BlueprintCallable, Category="PieceManager")
-		TArray<FVector> GetPieceInitPositions(float posZ);
-
 	UFUNCTION(BlueprintCallable, Category = "PieceManager")
 		void OnBoardClicked(FVector pos);
 
@@ -47,10 +45,11 @@ private:
 	void OnPieceClicked(int32 index, bool clicked);
 
 private:
-	TArray<FVector> piecesPos_;
+	TArray<FIntPoint> piecesPos_;
 	TArray<ABasePieceActor*> pieces_;
+	ADestPieceActor* destPiece_;
 	std::shared_ptr<AssetsLoader> assetsLoader_;
 
 	int32 chosenIdx_;
-	int32 destIdx_;
+	int32 destPosIdx_;
 };

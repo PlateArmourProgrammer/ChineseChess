@@ -117,6 +117,7 @@ namespace cc {
 		const float fy = target.Y / scale;
 		int ix = roundf(fx);
 		int iy = roundf(fy);
+		// UE_LOG(LogTemp, Log, TEXT("OnBoardOver %d %d"), ix, iy);
 		if (ix < -9 || ix > 9 || iy < -10 || iy > 10) {
 			return InvalidIdx;
 		}
@@ -125,7 +126,7 @@ namespace cc {
 			ix = -8;
 		} else if (ix == 9) {
 			ix = 8;
-		} else if (ix % 2 == 1) {
+		} else if ((ix + 20) % 2 == 1) {
 			ix = (fx > ix) ? (ix + 1) : (ix - 1);
 		}
 
@@ -133,7 +134,7 @@ namespace cc {
 			iy = -9;
 		} else if (iy == 10) {
 			iy = 9;
-		} else if (iy % 2 == 0) {
+		} else if ((iy + 20) % 2 == 0) {
 			iy = (fy > iy) ? (iy + 1) : (iy - 1);
 		}
 

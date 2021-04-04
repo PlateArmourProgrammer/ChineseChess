@@ -15,6 +15,7 @@ AssetsLoader::~AssetsLoader() {
 
 void AssetsLoader::Load() {
 	pieceMat_ = new ConstructorHelpers::FObjectFinder<UMaterial>(TEXT("Material'/Game/models/tex_chess_Mat.tex_chess_Mat'"));
+	destPieceMat_ = new ConstructorHelpers::FObjectFinder<UMaterial>(TEXT("Material'/Game/models/tex_chess_Mat_2.tex_chess_Mat_2'"));
 
 	pieceMeshs_[0] = new ConstructorHelpers::FObjectFinder<UStaticMesh>(TEXT("StaticMesh'/Game/models/r_j.r_j'"));
 	pieceMeshs_[1] = new ConstructorHelpers::FObjectFinder<UStaticMesh>(TEXT("StaticMesh'/Game/models/r_s.r_s'"));
@@ -38,6 +39,13 @@ UMaterial* AssetsLoader::GetPieceMaterial() const {
 		return nullptr;
 	}
 	return pieceMat_->Object;
+}
+
+UMaterial* AssetsLoader::GetDestPieceMaterial() const {
+	if (!destPieceMat_) {
+		return nullptr;
+	}
+	return destPieceMat_->Object;
 }
 
 UStaticMesh* AssetsLoader::GetPieceStaticMesh(int32 idx) const {

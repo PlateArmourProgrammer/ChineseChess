@@ -16,10 +16,13 @@ public:
 
 	UMaterial* GetPieceMaterial() const;
 
+	UMaterial* GetDestPieceMaterial() const;
+
 	UStaticMesh* GetPieceStaticMesh(int32 idx) const;
 
 private:
 	ConstructorHelpers::FObjectFinder<UMaterial>* pieceMat_;
+	ConstructorHelpers::FObjectFinder<UMaterial>* destPieceMat_;
 
 	ConstructorHelpers::FObjectFinder<UStaticMesh>* pieceMeshs_[14];
 };

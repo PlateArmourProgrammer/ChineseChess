@@ -36,9 +36,15 @@ void ABasePieceActor::InitInternal(const cc::ChessConstants::Side& side, const c
 
 	UStaticMeshComponent* meshComp = GetStaticMeshComponent();
 	meshComp->SetMaterial(0, assetsLoader->GetPieceMaterial());
+	meshComp->SetStaticMesh(assetsLoader->GetPieceStaticMesh(GetMeshIndex(side, type)));
 
-	int meshIdx = (side_ == cc::ChessConstants::Side::RED) ? 0 : 7;
-	switch (type_) {
+	SetActorRelativeLocation(currentPos_ * cc::ChessConstants::PosScale);
+	SetActorScale3D(PieceScale);
+}
+
+int32 ABasePieceActor::GetMeshIndex(const cc::ChessConstants::Side& side, const cc::ChessConstants::Type& type) {
+	int meshIdx = (side == cc::ChessConstants::Side::RED) ? 0 : 7;
+	switch (type) {
 	case cc::ChessConstants::Type::SHI:
 		meshIdx += 1;
 		break;
@@ -62,18 +68,19 @@ void ABasePieceActor::InitInternal(const cc::ChessConstants::Side& side, const c
 	case cc::ChessConstants::Type::BING:
 		meshIdx += 6;
 		break;
-	}
-	meshComp->SetStaticMesh(assetsLoader->GetPieceStaticMesh(meshIdx));
 
-	SetActorLocation(currentPos_ * cc::ChessConstants::PosScale);
-	SetActorScale3D(PieceScale);
+	default:
+		break;
+	}
+
+	return meshIdx;
 }
 
 void ABasePieceActor::OnChosen(bool chosen) {
 	if (!chosen) {
-		SetActorLocation(currentPos_ * cc::ChessConstants::PosScale);
+		SetActorRelativeLocation(currentPos_ * cc::ChessConstants::PosScale);
 		return;
 	}
-	SetActorLocation((currentPos_ + HighLightPosOffset) * cc::ChessConstants::PosScale);
+	SetActorRelativeLocation((currentPos_ + HighLightPosOffset) * cc::ChessConstants::PosScale);
 }
 

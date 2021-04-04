@@ -10,10 +10,11 @@
 #include "pieces/PiecePaoActor.h"
 #include "pieces/PieceShiActor.h"
 #include "pieces/PieceXiangActor.h"
+#include "pieces/DestPieceActor.h"
 
 // Sets default values
 ABasePieceManager::ABasePieceManager()
-	: chosenIdx_(-1), destIdx_(-1) {
+	: chosenIdx_(-1), destPosIdx_(-1) {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
@@ -26,7 +27,7 @@ void ABasePieceManager::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GetPieceInitPositions(0);
+	piecesPos_ = cc::ChessConstants::PieceInitPositions();
 	CreatePieces();
 }
 
@@ -37,22 +38,15 @@ void ABasePieceManager::Tick(float DeltaTime)
 
 }
 
-TArray<FVector> ABasePieceManager::GetPieceInitPositions(float posZ) {
-	TArray<FIntPoint> intPos = cc::ChessConstants::PieceInitPositions();
-	for (int i = 0; i < intPos.Num(); i++) {
-		piecesPos_.Add(FVector(intPos[i].X, intPos[i].Y, posZ));
-	}
-	return piecesPos_;
-}
-
 void ABasePieceManager::OnBoardClicked(FVector pos) {
-	UE_LOG(LogTemp, Log, TEXT("OnBoardClicked %f %f %d"), pos.X, pos.Y, chosenIdx_);
+	// UE_LOG(LogTemp, Log, TEXT("OnBoardClicked %f %f %d"), pos.X, pos.Y, chosenIdx_);
 	float temp = 0.9f;
 	FVector normalizedPos = pos / cc::ChessConstants::PosScale;
+	UE_LOG(LogTemp, Log, TEXT("OnBoardClicked %f %f %d"), normalizedPos.X, normalizedPos.Y, chosenIdx_);
 	// UE_LOG(LogTemp, Log, TEXT("OnBoardClicked down %d"), chosenIdx_);
 	OnPieceClicked(chosenIdx_, false);
 	for (int i = 0; i < piecesPos_.Num(); i++) {
-		if (cc::ChessConstants::GetVectorLength2D(normalizedPos - piecesPos_[i]) < temp) {
+		if (cc::ChessConstants::GetVectorLength2D(normalizedPos - FVector(piecesPos_[i].X, piecesPos_[i].Y, 0)) < temp) {
 			if (i != chosenIdx_) {
 				UpdateChosenIdx(i);
 				OnPieceClicked(chosenIdx_, true);
@@ -63,33 +57,40 @@ void ABasePieceManager::OnBoardClicked(FVector pos) {
 			return;
 		}
 	}
+	UpdateChosenIdx(-1);
 }
 
 void ABasePieceManager::OnBoardOver(FVector pos) {
 	if (chosenIdx_ == -1) {
+		destPiece_->Hide();
 		return;
 	}
-	int32 destIdx = cc::ChessConstants::IndexFromVectorPosition(pos, 1);
-	if (destIdx_ == destIdx) {
+	int32 destIdx = cc::ChessConstants::IndexFromVectorPosition(pos, cc::ChessConstants::PosScale);
+	if (destPosIdx_ == destIdx) {
 		return;
 	}
-	destIdx_ = destIdx;
+	destPosIdx_ = destIdx;
 
-	FIntPoint debugPos = cc::ChessConstants::PieceIndexToPosition(destIdx);
-	// UE_LOG(LogTemp, Log, TEXT("OnBoardOver %d %d %d"), destIdx, debugPos.X, debugPos.Y);
+	destPiece_->UpdatePos(destPosIdx_);
 }
 
 void ABasePieceManager::OnPieceClicked(int32 index, bool clicked) {
-	UE_LOG(LogTemp, Log, TEXT("PieceClicked %d %d"), index, clicked);
+	// UE_LOG(LogTemp, Log, TEXT("PieceClicked %d %d"), index, clicked);
 	if (index < 0) {
+		destPiece_->Hide();
 		return;
 	}
 	pieces_[index]->OnChosen(clicked);
+	if (clicked) {
+		destPiece_->UpdateMesh(pieces_[index]->GetSide(), pieces_[index]->GetType(), assetsLoader_);
+	} else {
+		destPiece_->Hide();
+	}
 }
 
 void ABasePieceManager::UpdateChosenIdx(int chosenIdx) {
 	chosenIdx_ = chosenIdx;
-	destIdx_ = -1;
+	destPosIdx_ = -1;
 }
 
 void ABasePieceManager::CreatePieces() {
@@ -126,12 +127,19 @@ void ABasePieceManager::CreatePieces() {
 	CreateOnePiece(29, APieceBingActor::StaticClass(), cc::ChessConstants::Side::RED);
 	CreateOnePiece(30, APieceBingActor::StaticClass(), cc::ChessConstants::Side::RED);
 	CreateOnePiece(31, APieceBingActor::StaticClass(), cc::ChessConstants::Side::RED);
+
+	UWorld* world = GetWorld();
+	destPiece_ = world->SpawnActor<ADestPieceActor>(ADestPieceActor::StaticClass());
+	FIntPoint pos = piecesPos_[0];
+	destPiece_->Init(cc::ChessConstants::Side::BLACK, FVector(pos.X, pos.Y, 0), assetsLoader_);
+	destPiece_->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
 }
 
 void ABasePieceManager::CreateOnePiece(const int32 idx, UClass* clazz, const cc::ChessConstants::Side& side) {
 	UWorld* world = GetWorld();
 	ABasePieceActor* actor = world->SpawnActor<ABasePieceActor>(clazz);
-	actor->Init(side, piecesPos_[idx], assetsLoader_);
+	FIntPoint pos = piecesPos_[idx];
+	actor->Init(side, FVector(pos.X, pos.Y, 0), assetsLoader_);
 	actor->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
 	pieces_.Add(actor);
 }
