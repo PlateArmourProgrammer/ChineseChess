@@ -7,6 +7,6 @@ APieceMaActor::APieceMaActor()
 	: ABasePieceActor() {
 }
 
-void APieceMaActor::Init(const cc::ChessConstants::Side& side, const FVector& pos, const std::shared_ptr<AssetsLoader>& assetsLoader) {
+void APieceMaActor::Init(const cc::ChessConstants::Side& side, const FIntPoint& pos, const std::shared_ptr<AssetsLoader>& assetsLoader) {
 	InitInternal(side, cc::ChessConstants::Type::MA, pos, assetsLoader);
 }

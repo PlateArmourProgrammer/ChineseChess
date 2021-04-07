@@ -7,6 +7,6 @@ APieceJiangActor::APieceJiangActor()
 	: ABasePieceActor() {
 }
 
-void APieceJiangActor::Init(const cc::ChessConstants::Side& side, const FVector& pos, const std::shared_ptr<AssetsLoader>& assetsLoader) {
+void APieceJiangActor::Init(const cc::ChessConstants::Side& side, const FIntPoint& pos, const std::shared_ptr<AssetsLoader>& assetsLoader) {
 	InitInternal(side, cc::ChessConstants::Type::JIANG, pos, assetsLoader);
 }

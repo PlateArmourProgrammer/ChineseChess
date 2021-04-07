@@ -29,7 +29,7 @@ void ABasePieceActor::Tick(float DeltaTime)
 
 }
 
-void ABasePieceActor::InitInternal(const cc::ChessConstants::Side& side, const cc::ChessConstants::Type& type, const FVector& pos, const std::shared_ptr<AssetsLoader>& assetsLoader) {
+void ABasePieceActor::InitInternal(const cc::ChessConstants::Side& side, const cc::ChessConstants::Type& type, const FIntPoint& pos, const std::shared_ptr<AssetsLoader>& assetsLoader) {
 	side_ = side;
 	type_ = type;
 	currentPos_ = pos;
@@ -38,7 +38,7 @@ void ABasePieceActor::InitInternal(const cc::ChessConstants::Side& side, const c
 	meshComp->SetMaterial(0, assetsLoader->GetPieceMaterial());
 	meshComp->SetStaticMesh(assetsLoader->GetPieceStaticMesh(GetMeshIndex(side, type)));
 
-	SetActorRelativeLocation(currentPos_ * cc::ChessConstants::PosScale);
+	SetLocationInternal(currentPos_, cc::ChessConstants::PosScale);
 	SetActorScale3D(PieceScale);
 }
 
@@ -76,11 +76,24 @@ int32 ABasePieceActor::GetMeshIndex(const cc::ChessConstants::Side& side, const 
 	return meshIdx;
 }
 
+void ABasePieceActor::SetLocationInternal(const FIntPoint& pos, const float scale, const FVector* offset) {
+	FVector temp(pos.X, pos.Y, 0);
+	if (offset) {
+		temp += *offset;
+	}
+	SetActorRelativeLocation(temp * scale);
+}
+
 void ABasePieceActor::OnChosen(bool chosen) {
 	if (!chosen) {
-		SetActorRelativeLocation(currentPos_ * cc::ChessConstants::PosScale);
+		SetLocationInternal(currentPos_, cc::ChessConstants::PosScale);
 		return;
 	}
-	SetActorRelativeLocation((currentPos_ + HighLightPosOffset) * cc::ChessConstants::PosScale);
+	SetLocationInternal(currentPos_, cc::ChessConstants::PosScale, &HighLightPosOffset);
+}
+
+void ABasePieceActor::MoveTo(const FIntPoint& pos) {
+	currentPos_ = pos;
+	SetLocationInternal(currentPos_, cc::ChessConstants::PosScale);
 }
 

@@ -26,9 +26,15 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 public:
-	virtual void Init(const cc::ChessConstants::Side& side, const FVector& pos, const std::shared_ptr<AssetsLoader>& assetsLoader) {}
+	virtual void Init(const cc::ChessConstants::Side& side, const FIntPoint& pos, const std::shared_ptr<AssetsLoader>& assetsLoader) {}
 
 	virtual void OnChosen(bool chosen);
+
+	virtual bool CheckMove(int32 posIdx) {
+		return false;
+	}
+
+	virtual void MoveTo(const FIntPoint& pos);
 
 	cc::ChessConstants::Side GetSide() {
 		return side_;
@@ -39,14 +45,17 @@ public:
 	}
 
 protected:
-	void InitInternal(const cc::ChessConstants::Side& side, const cc::ChessConstants::Type& type, const FVector& pos, const std::shared_ptr<AssetsLoader>& assetsLoader);
+	void InitInternal(const cc::ChessConstants::Side& side, const cc::ChessConstants::Type& type, const FIntPoint& pos, const std::shared_ptr<AssetsLoader>& assetsLoader);
 
 	int32 GetMeshIndex(const cc::ChessConstants::Side& side, const cc::ChessConstants::Type& type);
+
+private:
+	void SetLocationInternal(const FIntPoint& pos, const float scale, const FVector* offset = nullptr);
 
 protected:
 	cc::ChessConstants::Side side_;
 	cc::ChessConstants::Type type_;
 
-	FVector currentPos_;
+	FIntPoint currentPos_;
 
 };

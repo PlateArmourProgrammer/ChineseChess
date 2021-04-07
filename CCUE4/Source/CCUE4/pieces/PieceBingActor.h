@@ -17,6 +17,8 @@ class CCUE4_API APieceBingActor : public ABasePieceActor
 public:
 	APieceBingActor();
 
-	void Init(const cc::ChessConstants::Side& side, const FVector& pos, const std::shared_ptr<AssetsLoader>& assetsLoader) override;
+	void Init(const cc::ChessConstants::Side& side, const FIntPoint& pos, const std::shared_ptr<AssetsLoader>& assetsLoader) override;
+
+	bool CheckMove(int32 posIdx) override;
 	
 };

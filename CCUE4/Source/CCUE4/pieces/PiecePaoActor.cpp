@@ -7,6 +7,6 @@ APiecePaoActor::APiecePaoActor()
 	: ABasePieceActor() {
 }
 
-void APiecePaoActor::Init(const cc::ChessConstants::Side& side, const FVector& pos, const std::shared_ptr<AssetsLoader>& assetsLoader) {
+void APiecePaoActor::Init(const cc::ChessConstants::Side& side, const FIntPoint& pos, const std::shared_ptr<AssetsLoader>& assetsLoader) {
 	InitInternal(side, cc::ChessConstants::Type::PAO, pos, assetsLoader);
 }

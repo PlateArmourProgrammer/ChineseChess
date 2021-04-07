@@ -17,6 +17,6 @@ class CCUE4_API APieceCheActor : public ABasePieceActor
 public:
 	APieceCheActor();
 
-	void Init(const cc::ChessConstants::Side& side, const FVector& pos, const std::shared_ptr<AssetsLoader>& assetsLoader) override;
+	void Init(const cc::ChessConstants::Side& side, const FIntPoint& pos, const std::shared_ptr<AssetsLoader>& assetsLoader) override;
 	
 };

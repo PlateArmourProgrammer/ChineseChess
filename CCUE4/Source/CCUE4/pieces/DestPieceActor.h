@@ -17,7 +17,7 @@ class CCUE4_API ADestPieceActor : public ABasePieceActor
 public:
 	ADestPieceActor();
 
-	void Init(const cc::ChessConstants::Side& side, const FVector& pos, const std::shared_ptr<AssetsLoader>& assetsLoader) override;
+	void Init(const cc::ChessConstants::Side& side, const FIntPoint& pos, const std::shared_ptr<AssetsLoader>& assetsLoader) override;
 
 	void UpdatePos(int32 posIdx);
 

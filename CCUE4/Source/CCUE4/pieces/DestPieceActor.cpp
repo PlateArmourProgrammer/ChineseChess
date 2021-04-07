@@ -8,7 +8,7 @@ ADestPieceActor::ADestPieceActor()
 	: ABasePieceActor(), meshIdx_(-1) {
 }
 
-void ADestPieceActor::Init(const cc::ChessConstants::Side& side, const FVector& pos, const std::shared_ptr<AssetsLoader>& assetsLoader) {
+void ADestPieceActor::Init(const cc::ChessConstants::Side& side, const FIntPoint& pos, const std::shared_ptr<AssetsLoader>& assetsLoader) {
 	InitInternal(side, cc::ChessConstants::Type::BING, pos, assetsLoader);
 
 	UStaticMeshComponent* comp = GetStaticMeshComponent();
@@ -28,7 +28,7 @@ void ADestPieceActor::UpdatePos(int32 posIdx) {
 
 	FIntPoint pos = cc::ChessConstants::PieceIndexToPosition(posIdx);
 	SetActorRelativeLocation(FVector(pos.X, pos.Y, 0) * cc::ChessConstants::PosScale);
-	UE_LOG(LogTemp, Log, TEXT("OnBoardOver %d %d %d"), meshIdx_, pos.X, pos.Y);
+	// UE_LOG(LogTemp, Log, TEXT("OnBoardOver %d %d %d"), meshIdx_, pos.X, pos.Y);
 }
 
 void ADestPieceActor::UpdateMesh(const cc::ChessConstants::Side& side, const cc::ChessConstants::Type& type, const std::shared_ptr<AssetsLoader>& assetsLoader) {
