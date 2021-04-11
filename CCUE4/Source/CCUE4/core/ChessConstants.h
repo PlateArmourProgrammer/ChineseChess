@@ -51,17 +51,48 @@ namespace cc {
 		bj, bs1, bs2, bx1, bx2, bm1, bm2, bc1, bc2, bp1, bp2, bb1, bb2, bb3, bb4, bb5
 		16--17---18---19---20---21---22---23---24---25---26---27---28---29---30---31
 		rj, rs1, rs2, rx1, rx2, rm1, rm2, rc1, rc2, rp1, rp2, rb1, rb2, rb3, rb4, rb5
+
+		0--1--2--3--4--5--6
+		j, s, x, m, c, p, b
 	*/
 
 	class ChessConstants {
+
+	public:
+		enum Side {
+			RED,
+			BLACK,
+		};
+
+		enum Type {
+			JIANG,
+			SHI,
+			XIANG,
+			MA,
+			CHE,
+			PAO,
+			BING,
+		};
+
 	public:
 		static FIntPoint PieceIndexToPosition(int32 index);
 
-		static TArray<FIntPoint> PieceInitPositions();
+		static int32 PiecePositionToIndex(const int32 x, const int32 y);
+
+		static const TArray<FIntPoint>& PieceInitPositions();
 
 		static float GetVectorLength2D(FVector vec);
+
+		static int32 IndexFromVectorPosition(const FVector target, const float scale);
+
+		static int32 Absi32(int32 val);
+
+	public:
+		static const float PosScale;
 	};
 
 }
+
+#define CC_MATH_ABSI32(val) (cc::ChessConstants::Absi32(val))
 
 #endif

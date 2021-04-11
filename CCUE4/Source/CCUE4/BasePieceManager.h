@@ -4,7 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "core/ChessConstants.h"
 #include "BasePieceManager.generated.h"
+
+class AssetsLoader;
+class ABasePieceActor;
+class ADestPieceActor;
 
 UCLASS()
 class CCUE4_API ABasePieceManager : public AActor
@@ -25,18 +30,26 @@ public:
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "PieceManager")
-		void SetPositionScale(float scale);
-
-	UFUNCTION(BlueprintCallable, Category="PieceManager")
-		TArray<FVector> GetPieceInitPositions(float posZ);
-
-	UFUNCTION(BlueprintCallable, Category = "PieceManager")
 		void OnBoardClicked(FVector pos);
 
-	UFUNCTION(BlueprintNativeEvent, Category = "PieceManager")
-		void PieceClicked(int32 index);
+	UFUNCTION(BlueprintCallable, Category = "PieceManager")
+		void OnBoardOver(FVector pos);
 
 private:
-	float scale_;
-	TArray<FVector> piecesPos_;
+	void UpdateChosenIdx(int chosenIdx);
+
+	void CreatePieces();
+
+	void CreateOnePiece(const int32 idx, UClass *clazz, const cc::ChessConstants::Side &side, const TArray<FIntPoint>& posArr);
+
+	void OnPieceClicked(int32 index, bool clicked);
+
+private:
+	TArray<ABasePieceActor*> pieces_;
+	ADestPieceActor* destPiece_;
+	std::shared_ptr<AssetsLoader> assetsLoader_;
+
+	int32 chosenIdx_;
+	int32 destPosIdx_;
+	cc::ChessConstants::Side playingSide_;
 };
