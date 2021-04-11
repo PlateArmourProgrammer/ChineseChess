@@ -29,6 +29,15 @@ void ABasePieceActor::Tick(float DeltaTime)
 
 }
 
+void ABasePieceActor::BeEaten() {
+	MoveTo(99);
+
+	UStaticMeshComponent* meshComp = GetStaticMeshComponent();
+	if (meshComp) {
+		meshComp->SetVisibility(false);
+	}
+}
+
 void ABasePieceActor::InitInternal(const cc::ChessConstants::Side& side, const cc::ChessConstants::Type& type, const FIntPoint& pos, const std::shared_ptr<AssetsLoader>& assetsLoader) {
 	side_ = side;
 	type_ = type;

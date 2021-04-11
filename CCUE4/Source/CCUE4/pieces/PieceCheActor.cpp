@@ -32,15 +32,18 @@ bool APieceCheActor::CheckMove(int32 posIdx, const TArray<ABasePieceActor*>* pie
 			right = destPos.X;
 		}
 		for (int i = 0; i < pieces->Num(); i++) {
-			ABasePieceActor* actor = (*pieces)[i];
-			if (actor->GetIdx() == idx_ || !actor->GetAlive()) {
+			ABasePieceActor* piece = (*pieces)[i];
+			if (piece->GetPos() == destPos && piece->GetSide() == side_) {
+				return false;
+			}
+			if (piece->GetIdx() == idx_ || !piece->GetAlive()) {
 				continue;
 			}
-			const FIntPoint& pos = actor->GetPos();
+			const FIntPoint& pos = piece->GetPos();
 			if (pos.Y != currentPos_.Y) {
 				continue;
 			}
-			if (pos.X >= left && pos.X <= right) {
+			if (pos.X > left && pos.X < right) {
 				return false;
 			}
 		}
@@ -54,15 +57,18 @@ bool APieceCheActor::CheckMove(int32 posIdx, const TArray<ABasePieceActor*>* pie
 			right = destPos.Y;
 		}
 		for (int i = 0; i < pieces->Num(); i++) {
-			ABasePieceActor* actor = (*pieces)[i];
-			if (actor->GetIdx() == idx_) {
+			ABasePieceActor* piece = (*pieces)[i];
+			if (piece->GetPos() == destPos && piece->GetSide() == side_) {
+				return false;
+			}
+			if (piece->GetIdx() == idx_ || !piece->GetAlive()) {
 				continue;
 			}
-			const FIntPoint& pos = actor->GetPos();
+			const FIntPoint& pos = piece->GetPos();
 			if (pos.X != currentPos_.X) {
 				continue;
 			}
-			if (pos.Y >= left && pos.Y <= right) {
+			if (pos.Y > left && pos.Y < right) {
 				return false;
 			}
 		}

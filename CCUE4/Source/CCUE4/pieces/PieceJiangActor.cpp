@@ -15,6 +15,14 @@ bool APieceJiangActor::CheckMove(int32 posIdx, const TArray<ABasePieceActor*>* p
 	FIntPoint destPos = cc::ChessConstants::PieceIndexToPosition(posIdx);
 	int32 offsetX = destPos.X - currentPos_.X;
 	int32 offsetY = destPos.Y - currentPos_.Y;
+
+	for (int i = 0; i < pieces->Num(); i++) {
+		ABasePieceActor* piece = (*pieces)[i];
+		if (piece->GetPos() == destPos && piece->GetSide() == side_) {
+			return false;
+		}
+	}
+
 	if (offsetX != 0 && offsetY != 0) {
 		return false;
 	}

@@ -56,8 +56,10 @@ public:
 		return idx_;
 	}
 
+	void BeEaten();
+
 	bool GetAlive() const {
-		return true;
+		return alive_;
 	}
 
 protected:
@@ -74,5 +76,6 @@ protected:
 
 	FIntPoint currentPos_;
 	int idx_ = -1;
+	bool alive_ = true;
 
 };
