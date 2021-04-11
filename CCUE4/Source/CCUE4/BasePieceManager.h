@@ -40,12 +40,11 @@ private:
 
 	void CreatePieces();
 
-	void CreateOnePiece(const int32 idx, UClass *clazz, const cc::ChessConstants::Side &side);
+	void CreateOnePiece(const int32 idx, UClass *clazz, const cc::ChessConstants::Side &side, const TArray<FIntPoint>& posArr);
 
 	void OnPieceClicked(int32 index, bool clicked);
 
 private:
-	TArray<FIntPoint> piecesPos_;
 	TArray<ABasePieceActor*> pieces_;
 	ADestPieceActor* destPiece_;
 	std::shared_ptr<AssetsLoader> assetsLoader_;

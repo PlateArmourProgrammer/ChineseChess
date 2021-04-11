@@ -36,8 +36,11 @@ namespace cc {
 		return ((y - (-9)) / 2 * 10) + (x - (-8)) / 2;
 	}
 
-	TArray<FIntPoint> ChessConstants::PieceInitPositions() {
-		TArray<FIntPoint> ret;
+	const TArray<FIntPoint>& ChessConstants::PieceInitPositions() {
+		static TArray<FIntPoint> ret;
+		if (ret.Num() > 0) {
+			return ret;
+		}
 		
 		// 0 bj
 		ret.Add(IndexToPositionMap[4]);

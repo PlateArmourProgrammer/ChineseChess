@@ -36,6 +36,10 @@ public:
 
 	virtual void MoveTo(const FIntPoint& pos);
 
+	const FIntPoint& GetPos() {
+		return currentPos_;
+	}
+
 	cc::ChessConstants::Side GetSide() {
 		return side_;
 	}

@@ -79,7 +79,7 @@ namespace cc {
 
 		static int32 PiecePositionToIndex(const int32 x, const int32 y);
 
-		static TArray<FIntPoint> PieceInitPositions();
+		static const TArray<FIntPoint>& PieceInitPositions();
 
 		static float GetVectorLength2D(FVector vec);
 
