@@ -20,6 +20,8 @@ ABasePieceManager::ABasePieceManager()
 
 	assetsLoader_.reset(new AssetsLoader);
 	assetsLoader_->Load();
+
+	playingSide_ = cc::ChessConstants::Side::RED;
 }
 
 // Called when the game starts or when spawned
@@ -41,7 +43,6 @@ void ABasePieceManager::OnBoardClicked(FVector pos) {
 	// UE_LOG(LogTemp, Log, TEXT("OnBoardClicked %f %f %d"), pos.X, pos.Y, chosenIdx_);
 	float temp = 0.9f;
 	FVector normalizedPos = pos / cc::ChessConstants::PosScale;
-	// UE_LOG(LogTemp, Log, TEXT("OnBoardClicked down %d"), chosenIdx_);
 	int newChosen = -1;
 	for (int i = 0; i < pieces_.Num(); i++) {
 		const FIntPoint& pos = pieces_[i]->GetPos();
@@ -53,9 +54,10 @@ void ABasePieceManager::OnBoardClicked(FVector pos) {
 		}
 	}
 
-	// UE_LOG(LogTemp, Log, TEXT("OnBoardClicked chosenIdx_ %d %d"), chosenIdx_, newChosen);
+	// UE_LOG(LogTemp, Log, TEXT("OnBoardClicked chosenIdx_ %d %d %ld"), chosenIdx_, newChosen, newChosen != -1 ? pieces_[newChosen]->GetSide() : -1);
+	bool validMove = false;
 	if (chosenIdx_ >= 0) {
-		bool validMove = pieces_[chosenIdx_]->CheckMove(destPosIdx_, &pieces_);
+		validMove = pieces_[chosenIdx_]->CheckMove(destPosIdx_, &pieces_);
 		// UE_LOG(LogTemp, Log, TEXT("OnBoardClicked validMove %d"), validMove);
 		if (validMove) {
 			FIntPoint destPos = cc::ChessConstants::PieceIndexToPosition(destPosIdx_);
@@ -64,6 +66,9 @@ void ABasePieceManager::OnBoardClicked(FVector pos) {
 			if (newChosen != -1) {
 				if (pieces_[newChosen]->GetPos() == destPos) {
 					pieces_[newChosen]->BeEaten();
+					if (newChosen == 0 || newChosen == 16) {
+						UE_LOG(LogTemp, Log, TEXT("Win: %ld"), playingSide_);
+					}
 					newChosen = -1;
 				}
 			}
@@ -71,12 +76,20 @@ void ABasePieceManager::OnBoardClicked(FVector pos) {
 	}
 
 	OnPieceClicked(chosenIdx_, false);
-	if (newChosen != -1) {
+	if (newChosen != -1 && pieces_[newChosen]->GetSide() == playingSide_) {
 		UpdateChosenIdx(newChosen);
 		OnPieceClicked(chosenIdx_, true);
 		// UE_LOG(LogTemp, Log, TEXT("OnBoardClicked up %d"), chosenIdx_);
 	} else {
 		UpdateChosenIdx(-1);
+	}
+
+	if (validMove) {
+		if (playingSide_ == cc::ChessConstants::Side::RED) {
+			playingSide_ = cc::ChessConstants::Side::BLACK;
+		} else {
+			playingSide_ = cc::ChessConstants::Side::RED;
+		}
 	}
 }
 

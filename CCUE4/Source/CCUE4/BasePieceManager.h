@@ -51,4 +51,5 @@ private:
 
 	int32 chosenIdx_;
 	int32 destPosIdx_;
+	cc::ChessConstants::Side playingSide_;
 };
