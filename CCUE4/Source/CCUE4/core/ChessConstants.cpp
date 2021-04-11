@@ -144,4 +144,11 @@ namespace cc {
 		return PiecePositionToIndex(ix, iy);
 	}
 
+	int32 ChessConstants::Absi32(int32 val) {
+		if (val < 0) {
+			return -val;
+		}
+		return val;
+	}
+
 }

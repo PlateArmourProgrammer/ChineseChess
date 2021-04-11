@@ -11,7 +11,7 @@ void APieceBingActor::Init(const cc::ChessConstants::Side& side, const FIntPoint
 	InitInternal(side, cc::ChessConstants::Type::BING, pos, assetsLoader);
 }
 
-bool APieceBingActor::CheckMove(int32 posIdx) {
+bool APieceBingActor::CheckMove(int32 posIdx, const TArray<ABasePieceActor*>* pieces) {
 	FIntPoint destPos = cc::ChessConstants::PieceIndexToPosition(posIdx);
 	// UE_LOG(LogTemp, Log, TEXT(" APieceBingActor::CheckMove %d %d %d %d"), currentPos_.X, currentPos_.Y, destPos.X, destPos.Y);
 

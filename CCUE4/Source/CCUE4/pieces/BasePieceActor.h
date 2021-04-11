@@ -30,22 +30,34 @@ public:
 
 	virtual void OnChosen(bool chosen);
 
-	virtual bool CheckMove(int32 posIdx) {
+	virtual bool CheckMove(int32 posIdx, const TArray<ABasePieceActor*>* pieces) {
 		return false;
 	}
 
 	virtual void MoveTo(const FIntPoint& pos);
 
-	const FIntPoint& GetPos() {
+	const FIntPoint& GetPos() const {
 		return currentPos_;
 	}
 
-	cc::ChessConstants::Side GetSide() {
+	cc::ChessConstants::Side GetSide() const {
 		return side_;
 	}
 
-	cc::ChessConstants::Type GetType() {
+	cc::ChessConstants::Type GetType() const {
 		return type_;
+	}
+
+	void SetIdx(int idx) {
+		idx_ = idx;
+	}
+
+	int GetIdx() const {
+		return idx_;
+	}
+
+	bool GetAlive() const {
+		return true;
 	}
 
 protected:
@@ -61,5 +73,6 @@ protected:
 	cc::ChessConstants::Type type_;
 
 	FIntPoint currentPos_;
+	int idx_ = -1;
 
 };

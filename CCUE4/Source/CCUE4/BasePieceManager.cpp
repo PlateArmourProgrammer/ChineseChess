@@ -57,7 +57,7 @@ void ABasePieceManager::OnBoardClicked(FVector pos) {
 		}
 	}
 	if (chosenIdx_ >= 0) {
-		bool validMove = pieces_[chosenIdx_]->CheckMove(destPosIdx_);
+		bool validMove = pieces_[chosenIdx_]->CheckMove(destPosIdx_, &pieces_);
 		// UE_LOG(LogTemp, Log, TEXT("OnBoardClicked validMove %d"), validMove);
 		if (validMove) {
 			pieces_[chosenIdx_]->MoveTo(cc::ChessConstants::PieceIndexToPosition(destPosIdx_));
@@ -146,6 +146,7 @@ void ABasePieceManager::CreateOnePiece(const int32 idx, UClass* clazz, const cc:
 	UWorld* world = GetWorld();
 	ABasePieceActor* actor = world->SpawnActor<ABasePieceActor>(clazz);
 	actor->Init(side, posArr[idx], assetsLoader_);
+	actor->SetIdx(idx);
 	actor->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
 	pieces_.Add(actor);
 }

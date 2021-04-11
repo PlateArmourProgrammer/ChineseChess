@@ -18,5 +18,7 @@ public:
 	APieceShiActor();
 
 	void Init(const cc::ChessConstants::Side& side, const FIntPoint& pos, const std::shared_ptr<AssetsLoader>& assetsLoader) override;
+
+	bool CheckMove(int32 posIdx, const TArray<ABasePieceActor*>* pieces) override;
 	
 };

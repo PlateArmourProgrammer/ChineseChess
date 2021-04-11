@@ -85,10 +85,14 @@ namespace cc {
 
 		static int32 IndexFromVectorPosition(const FVector target, const float scale);
 
+		static int32 Absi32(int32 val);
+
 	public:
 		static const float PosScale;
 	};
 
 }
+
+#define CC_MATH_ABSI32(val) (cc::ChessConstants::Absi32(val))
 
 #endif
